@@ -24,11 +24,11 @@
         }
     },
 
-    render(component) {
+    render() {
         return h('div', { style: { color: "red" } }, [
-            `Count is: ${component.count}`,
-            h('button', { onClick: () => component.increment() }, ["Increment"]),
-            h('button', { onClick: () => component.decrement() }, ["Decrement"]),
+            `Count is: ${this.count}`,
+            h('button', { onClick: () => this.increment() }, ["Increment"]),
+            h('button', { onClick: () => this.decrement() }, ["Decrement"]),
         ])
     }
 

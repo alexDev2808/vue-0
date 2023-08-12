@@ -1,10 +1,17 @@
 <template>
   <nav class="navbar">
-    <img src="./assets/logo.svg" width="50"/>
+    <img src="./assets/logo.svg" width="50" />
     <h3>Todo List App</h3>
   </nav>
 
   <main class="container">
+    <Alert
+      message="ToDo title is required"
+      :show="showAlert"
+      @close="showAlert = false"
+      type="warning"
+    />
+
     <section>
       <form class="add-todo-form">
         <input v-model="todoTitle" type="text" placeholder="Todo Title" />
@@ -17,7 +24,9 @@
       <div v-for="todo in todos" class="todo" :key="todo.id">
         <p>{{ todo.title }}</p>
         <div>
-          <button @click="removeTodo(todo)" class="remove-todo-btn">&times;</button>
+          <button @click="removeTodo(todo)" class="remove-todo-btn">
+            &times;
+          </button>
         </div>
       </div>
     </section>
@@ -25,28 +34,41 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        todoTitle: "",
-        todos: []
+import Alert from "./components/Alert.vue";
+export default {
+  components: {
+    Alert,
+  },
+
+  data() {
+    return {
+      todoTitle: "",
+      todos: [],
+      showAlert: false,
+    };
+  },
+
+  methods: {
+    addTodo() {
+      if (this.todoTitle === "") {
+        this.showAlert = true;
+        return;
       }
-    },
-    methods: {
-      addTodo() {
-        this.todos = this.todos.concat([{
+
+      this.todos = this.todos.concat([
+        {
           id: Math.floor(Math.random() * 1000),
           title: this.todoTitle,
-        }])
-      },
+        },
+      ]);
+    },
 
-      removeTodo(todoTitle) {
-        this.todos = this.todos.filter(todo => todo !== todoTitle);
-      }
-    }
-  }
+    removeTodo(todoTitle) {
+      this.todos = this.todos.filter((todo) => todo !== todoTitle);
+    },
+  },
+};
 </script>
-
 
 <style scoped>
 .navbar {
@@ -55,16 +77,18 @@
   background-color: var(--navbar-color);
   padding: 20px;
 }
+
 .add-todo-form {
   display: flex;
   justify-content: space-between;
 }
+
 .add-todo-form input {
   width: 70%;
   border: solid 2px var(--accent-color);
   padding-left: 20px;
-
 }
+
 .add-todo-form button {
   background-color: var(--accent-color);
   color: var(--text-color);
@@ -82,6 +106,7 @@
   padding: 0 20px;
   border-radius: 8px;
 }
+
 .remove-todo-btn {
   border-radius: 50%;
   border: none;
@@ -90,5 +115,6 @@
   font-size: 32px;
   color: var(--text-color);
   background-color: var(--danger-color);
+  cursor: pointer;
 }
 </style>

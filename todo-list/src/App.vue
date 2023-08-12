@@ -14,8 +14,8 @@
       </form>
     </section>
     <section>
-      <div v-for="todo in todos" class="todo">
-        <p>{{ todo }}</p>
+      <div v-for="todo in todos" class="todo" :key="todo.id">
+        <p>{{ todo.title }}</p>
         <div>
           <button @click="removeTodo(todo)" class="remove-todo-btn">&times;</button>
         </div>
@@ -34,8 +34,12 @@
     },
     methods: {
       addTodo() {
-        this.todos = this.todos.concat([this.todoTitle])
+        this.todos = this.todos.concat([{
+          id: Math.floor(Math.random() * 1000),
+          title: this.todoTitle,
+        }])
       },
+
       removeTodo(todoTitle) {
         this.todos = this.todos.filter(todo => todo !== todoTitle);
       }
